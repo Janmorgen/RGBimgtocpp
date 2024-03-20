@@ -1,6 +1,6 @@
 ### RGB Image to Arduino CPP
 
-This is some simple code to get RGB images into PROGMEM to be displayed by a Adafruits GFX library. I am using it for a SSD1351 driver display and aside from color encoding issues (which I will fix), it is read and displayed perfectly by my ESP32-WROOM
+This is some simple code to get RGB images into PROGMEM to be displayed by the Adafruits GFX library function `drawRGBBitmap`. I am using it for a SSD1351 driver display and aside from color encoding issues (which I will fix), it is read and displayed perfectly by my ESP32-WROOM
 
 #### Usage
 - Install required library "Pillow"
