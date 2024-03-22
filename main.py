@@ -30,10 +30,29 @@ def calculateHex(palleteColor):
         output+=int(0x07E0*palleteColor[1]/255)
         output+=int(0x001F*palleteColor[2]/255)
         return output
+def calculateHexV2(palleteColor):
+    output=0
+    if (palleteColor[3]==0):
+        return 0x0000
+    else:
+        output+=int(0xF8*palleteColor[0]/255)<<8
+        output+=int(0x7E*palleteColor[1]/255)<<4
+        output+=int(0x1F*palleteColor[2]/255)
+        return output
+# Useful resource: https://rgbcolorpicker.com/565
+def convertTo16bit(color):
+    output=0
+    if (color[3]==0):
+        return 0x0000
+    else:
+        red=int(round(color[0]*31/255))
+        green=int(round(color[1]*63/255))
+        blue=int(round(color[2]*31/255))
+        return (red<<11) | (green << 5) | blue
 def processImgData(imgData):
     output=[]
     for i in imgData:
-        output.append(calculateHex(i))
+        output.append(convertTo16bit(i))
     return output
 
 def writeImgDataD(processedImgData,imgDataName):
@@ -108,7 +127,10 @@ if (os.path.exists(Img_Dir)):
         img=Image.open(Img_Dir+"/"+i)
         print(img)
         imageData=list(img.getdata())
+        print(set(img.getdata()))
         processedImageData = processImgData(imageData)
+        for i in set(processedImageData):
+            print((hex(i)))
         mask = makeMask(processedImageData,img.width)
         writeMask(mask,imgDataName)
         writeImgDataD(processedImageData,imgDataName)
